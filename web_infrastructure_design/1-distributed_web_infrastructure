@@ -1,0 +1,23 @@
+A user wants to access the website by typing www.foobar.com into their browser.
+
+The browser asks DNS to resolve the domain name to an IP address. This IP points to a load balancer instead of directly to a server.
+
+The load balancer used here is HAProxy. It sits in front of the servers and its role is to distribute incoming traffic across multiple servers instead of sending all requests to just one. This is added to improve availability and handle more traffic.
+
+The load balancer is configured with a round-robin distribution algorithm. This means it sends each incoming request to the next server in the list, cycling through them evenly so the load is shared.
+
+The load balancer is set up in an Active-Active configuration. This means both servers are active at the same time and receive traffic. In an Active-Passive setup, one server would handle traffic while the other stays idle and only takes over if the first one fails.
+
+Behind the load balancer, there are two servers. Each server contains a web server (Nginx), an application server, the application files, and a database.
+
+The web server (Nginx) receives requests from the load balancer. Its role is to handle HTTP requests, serve static content, and forward dynamic requests to the application server.
+
+The application server runs the application logic. It processes user requests, executes the application code, and determines what data is needed.
+
+The application files are the codebase of the website. They define how the application behaves and are used by the application server on each server.
+
+The databases are set up in a Primary-Replica (Master-Slave) configuration. The Primary database is responsible for handling write operations, such as creating or updating data. The Replica database copies data from the Primary and is mainly used for read operations.
+
+The application communicates with the Primary database when it needs to write data and can read data from the Replica to reduce load on the Primary database.
+
+This infrastructure still has some issues. There are single points of failure, such as the load balancer, since there is only one of it. There are also security issues because there is no firewall and no HTTPS enabled, meaning traffic is not encrypted. Additionally, there is no monitoring in place, so failures or performance issues might not be detected quickly.
