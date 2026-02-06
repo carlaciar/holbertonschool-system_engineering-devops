@@ -1,0 +1,15 @@
+A user types www.foobar.com into their browser to access the website.
+
+DNS resolves the domain name to the load balancer IPs. Instead of having just one load balancer, we now add a second one and configure them as a cluster. This is done so the system does not rely on a single load balancer. If one load balancer goes down, the other one can still handle traffic.
+
+The load balancers receive incoming requests and distribute them to the backend servers. Having two load balancers reduces the risk of downtime and removes a major single point of failure.
+
+Behind the load balancers, the components are split across different servers instead of being combined on the same machine.
+
+One server is dedicated to the web server. This server runs Nginx and is responsible for handling incoming HTTP or HTTPS requests and serving static content.
+
+Another server is dedicated to the application server and application files. This server runs the application logic and processes requests that require dynamic behavior, such as interacting with data.
+
+A separate server is used for the database. This server runs MySQL and is responsible only for storing and managing data. Separating the database helps protect data and allows it to be scaled or managed independently.
+
+Each new element is added to improve scalability and reliability. Adding an extra load balancer prevents traffic from depending on a single machine. Splitting the web server, application server, and database onto their own servers reduces resource contention and makes it easier to scale or maintain each part of the system independently.
