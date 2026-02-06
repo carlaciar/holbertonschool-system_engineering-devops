@@ -1,0 +1,23 @@
+A user wants to access the website by typing www.foobar.com into their browser.
+
+DNS resolves the domain name to the IP address of the load balancer. The user connects to the load balancer using HTTPS instead of HTTP, which means the traffic is encrypted using an SSL certificate. This is added to protect data being sent between the user and the website.
+
+The load balancer distributes incoming requests to the backend servers. SSL is terminated at the load balancer level, meaning the encrypted traffic is decrypted there before being forwarded to the servers.
+
+Firewalls are added to secure the infrastructure. There is one firewall in front of the load balancer and one firewall in front of each server. Firewalls are used to control incoming and outgoing traffic and block unauthorized access by only allowing specific ports and protocols.
+
+Behind the load balancer, there are two servers. Each server contains a web server (Nginx), an application server, the application files, and a database. This setup allows traffic to be distributed and improves availability.
+
+Monitoring clients are added to each server. These monitoring agents collect data such as CPU usage, memory usage, disk usage, and application performance. The data is sent to an external monitoring service like Sumologic so the system can be observed in real time.
+
+Monitoring is used to detect issues, track performance, and receive alerts when something goes wrong. It helps identify problems before users notice them.
+
+The monitoring tool collects data by running an agent on each server. This agent gathers logs and metrics from the system and sends them to the monitoring service over the network.
+
+To monitor web server QPS (queries per second), the monitoring tool can collect metrics from the web server logs or use built-in web server statistics. These metrics are then visualized in dashboards to show how much traffic the server is handling.
+
+This infrastructure still has some issues. Terminating SSL at the load balancer is a problem because traffic between the load balancer and the servers is no longer encrypted, which can be a security risk.
+
+Having only one MySQL server capable of accepting write operations is an issue because it creates a single point of failure. If the primary database goes down, the application cannot write data.
+
+Having servers with all the same components (web server, application server, and database) can also be a problem because it makes scaling harder and increases complexity. It can lead to inefficient resource usage and makes maintenance more difficult.
