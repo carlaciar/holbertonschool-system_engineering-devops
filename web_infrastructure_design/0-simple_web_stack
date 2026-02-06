@@ -1,0 +1,17 @@
+A user wants to access the website by typing www.foobar.com into their browser.
+
+The browser first needs to know where this website lives, so it asks DNS to translate the domain name into an IP address. The www part of www.foobar.com is a DNS A record that points to the server’s IP address, which in this case is 8.8.8.8.
+
+A server is a computer that is always running and connected to the internet. Its job is to receive requests from users and send responses back. In this setup, there is only one server and everything runs on it.
+
+The server communicates with the user’s computer using HTTP or HTTPS over the internet.
+
+The web server used here is Nginx. Its role is to receive incoming requests from users. It can serve static files directly and forwards dynamic requests to the application server.
+
+The application server handles the main logic of the website. It runs the application code and decides what needs to happen for each request, such as getting data or returning a response.
+
+The application files are the website’s codebase. They contain the logic and structure of the application and are used by the application server to run the website.
+
+The database used is MySQL. Its role is to store the website’s data, like users, content, or any other information the application needs. The application server talks to the database to read and write this data.
+
+This infrastructure has some problems. It has a single point of failure because everything is on one server, so if it goes down, the whole website goes down. When maintenance is needed, like deploying new code or restarting the web server, the site will experience downtime. It also cannot handle large amounts of traffic because the single server can only handle so much at once.
